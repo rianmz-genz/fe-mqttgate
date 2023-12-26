@@ -1,19 +1,14 @@
 import { api } from "..";
 
-const register = async (reqBody) => {
-  return await api.post("/auth/register", reqBody);
-};
-
 const login = async (reqBody) => {
-  return await api.post("/login", reqBody)
+  return await api.post("/login", reqBody);
+};
+const logout = async () => {
+  return await api.post("/auth/logout", {});
 };
 
-const getRoles = async () => {
-  return await api.get("/roles");
-};
 const authApi = {
-  register,
-  getRoles,
   login,
+  logout,
 };
 export default authApi;

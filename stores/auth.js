@@ -1,9 +1,11 @@
 import { getAccessToken } from "@/api";
+import userApi from "@/api/user";
 
 const auth = (set) => ({
   auth: {
     isSignedIn: false,
     token: "",
+    user: {},
   },
   role: {
     isLoading: false,
@@ -11,7 +13,7 @@ const auth = (set) => ({
   },
   syncToken: async () => {
     const token = await getAccessToken();
-    // console.log(token);
+
     set((state) => ({
       auth: {
         ...state.auth,

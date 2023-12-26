@@ -3,7 +3,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import qrApi from "@/api/qr";
 import { isSuccess } from "@/utils";
-import { ManagementErrorHandling } from "@/utils/modal";
+import {
+  ManagementErrorHandling,
+  ManagementSuccessHandling,
+} from "@/utils/modal";
+import Image from "next/image";
+import Cookies from "js-cookie";
 const ScanQr = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isRendered, setIsRendered] = useState(false);
@@ -31,7 +36,6 @@ const ScanQr = () => {
         } catch (error) {
           ManagementErrorHandling(error);
         }
-        html5QrcodeScanner.clear();
       };
 
       const onScanFailure = (error) => {
@@ -46,10 +50,52 @@ const ScanQr = () => {
       };
     }
   }, [isRendered]);
-  return isRendered && !isOpen ? (
-    <div className="max-w-[600px] w-full" id="reader"></div>
-  ) : (
-    <div></div>
+  async function closeGate() {
+    const user = JSON.parse(
+      Cookies.get(btoa(process.env.NEXT_PUBLIC_KEY_USER))
+    );
+    try {
+      const { result } = await qrApi.closeGate(user.office.id);
+      if (result.status) {
+        setIsOpen(false);
+        ManagementSuccessHandling(result.message);
+        setIsRendered(true);
+      }
+    } catch (error) {
+      ManagementErrorHandling(error);
+    }
+  }
+  return (
+    isRendered && (
+      <>
+        <div
+          className={`${
+            isOpen ? "hidden" : "block"
+          } transition-all duration-300 w-full`}
+          id="reader"
+        ></div>
+        <div
+          className={`${
+            !isOpen ? "invisible opacity-0" : "visible opacity-100"
+          } transition-all duration-300 flex flex-col justify-center items-center space-y-3 mt-5`}
+        >
+          <Image
+            src={"/images/gate.svg"}
+            alt="gate"
+            width={1080}
+            height={1080}
+            className="w-8/12"
+          />
+          <p>Please don&apos;t forget close gate again</p>
+          <button
+            onClick={() => closeGate()}
+            className="px-4 py-2 bg-black text-white"
+          >
+            Close Gate
+          </button>
+        </div>
+      </>
+    )
   );
 };
 
