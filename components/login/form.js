@@ -40,6 +40,8 @@ const FormLogin = () => {
           router.push("/scan");
         } else if (userData.role.name === "Super Admin") {
           router.push("/offices");
+        } else {
+          router.push("/employees");
         }
       }
     } catch (error) {

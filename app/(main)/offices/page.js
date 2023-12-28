@@ -1,12 +1,14 @@
 "use client";
 import CreateOffice from "@/components/office/create";
+import TableOffice from "@/components/office/table";
 import useStore from "@/stores";
 import React, { useEffect } from "react";
 
 const OfficesPage = () => {
-  const [get, offices, sync] = useStore((state) => [
+  const [get, offices, isLoading, sync] = useStore((state) => [
     state.getOffices,
     state.office.datas,
+    state.office.isLoading,
     state.syncToken,
   ]);
   useEffect(() => {
@@ -15,8 +17,11 @@ const OfficesPage = () => {
   }, []);
   return (
     <div className="w-full">
-      <h1 className="font-ysabeau text-2xl my-4">Offices</h1>
-      <CreateOffice />
+      <div className="flex justify-between items-center">
+        <h1 className="font-ysabeau text-2xl mt-8 mb-6">Offices</h1>
+        <CreateOffice />
+      </div>
+      <TableOffice datas={offices} isLoading={isLoading} />
     </div>
   );
 };

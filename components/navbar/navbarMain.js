@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillProfile, AiOutlineUser } from "react-icons/ai";
 import { SiActivitypub } from "react-icons/si";
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
@@ -26,11 +26,11 @@ const navList = () => {
             label: "Offices",
             url: "/offices",
           },
-          {
-            logo: LuUsers,
-            label: "Employees",
-            url: "/employees",
-          },
+          // {
+          //   logo: LuUsers,
+          //   label: "Employees",
+          //   url: "/employees",
+          // },
           {
             logo: AiOutlineUser,
             label: "Profile",
@@ -45,6 +45,11 @@ const navList = () => {
             url: "/employees",
           },
           {
+            logo: SiActivitypub,
+            label: "Activities",
+            url: "/my-activities",
+          },
+          {
             logo: AiOutlineUser,
             label: "Profile",
             url: "/profile",
@@ -57,11 +62,7 @@ const navList = () => {
             label: "Scan",
             url: "/scan",
           },
-          {
-            logo: SiActivitypub,
-            label: "Activities",
-            url: "/my-activities",
-          },
+
           {
             logo: AiOutlineUser,
             label: "Profile",
@@ -74,6 +75,7 @@ const navList = () => {
 const NavbarMain = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [isRendered, setIsRendered] = useState(false);
   async function logout() {
     try {
       setIsLoading(true);
@@ -90,19 +92,27 @@ const NavbarMain = () => {
       setIsLoading(false);
     }
   }
+  useEffect(() => {
+    setIsRendered(true);
+  }, []);
   return (
-    <nav className="flex items-center space-x-3">
-      {navList()?.map((item, i) => (
-        <NavItem key={i} item={item} />
-      ))}
-      <button
-        onClick={() => logout()}
-        className={` text-2xl px-2 py-1 border hover:border-black transition-all duration-300 flex items-center`}
-        title="logout"
-      >
-        {isLoading ? <Loader className="text-black" /> : <IoMdLogOut />}
-        <p className="text-sm ml-1">Logout</p>
-      </button>
+    <nav className="w-full">
+      <ul className="flex items-center space-x-3">
+        {isRendered &&
+          navList()?.map((item, i) => (
+            <li key={i}>
+              <NavItem item={item} />
+            </li>
+          ))}
+        <button
+          onClick={() => logout()}
+          className={` text-2xl px-2 py-1 border hover:border-black transition-all duration-300 flex items-center`}
+          title="logout"
+        >
+          {isLoading ? <Loader className="text-black" /> : <IoMdLogOut />}
+          <p className="text-sm ml-1">Logout</p>
+        </button>
+      </ul>
     </nav>
   );
 };
@@ -120,7 +130,7 @@ function NavItem({ item }) {
       title={item.label}
     >
       <item.logo />
-      <p className="text-sm ml-1">{item.label}</p>
+      <span className="text-sm ml-1">{item.label}</span>
     </Link>
   );
 }

@@ -14,12 +14,12 @@ const offices = (set) => ({
         },
       }));
       const { result } = await officeApi.getAll();
-      console.table(result);
+      console.table(result.data.offices);
       if (result.status) {
         set((state) => ({
           office: {
             ...state.office,
-            datas: result.data,
+            datas: result.data.offices,
           },
         }));
       }
