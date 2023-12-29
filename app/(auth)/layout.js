@@ -5,7 +5,7 @@ import React from "react";
 const AuthLayout = ({ children }) => {
   return (
     <div className="w-full h-screen flex justify-center items-center">
-      <section className="max-w-[500px] w-full font-poppins">
+      <section className="max-w-[500px] w-full font-poppins px-7">
         <Logo className="mb-6 w-24" />
         <BreadCrumbsAuth />
         {children}

@@ -73,7 +73,7 @@ function EditUserAction({ user }) {
             type="submit"
             className=" w-full px-4 py-2 bg-black text-white"
           >
-            {isLoading ? <Loader /> : "Create Employee"}
+            {isLoading ? <Loader /> : "Save Employee"}
           </button>
         </form>
       </Popup>
