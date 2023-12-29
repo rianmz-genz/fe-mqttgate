@@ -25,7 +25,6 @@ const ScanQr = () => {
       );
 
       const onScanSuccess = async (code, decodedResult) => {
-        console.log(code);
         try {
           if (code) {
             const { result } = await qrApi.scan({ code });
@@ -50,21 +49,6 @@ const ScanQr = () => {
       };
     }
   }, [isRendered]);
-  async function closeGate() {
-    const user = JSON.parse(
-      Cookies.get(btoa(process.env.NEXT_PUBLIC_KEY_USER))
-    );
-    try {
-      const { result } = await qrApi.closeGate(user.office.id);
-      if (result.status) {
-        setIsOpen(false);
-        ManagementSuccessHandling(result.message);
-        setIsRendered(true);
-      }
-    } catch (error) {
-      ManagementErrorHandling(error);
-    }
-  }
   return (
     isRendered && (
       <>
@@ -86,13 +70,7 @@ const ScanQr = () => {
             height={1080}
             className="w-8/12"
           />
-          <p>Please don&apos;t forget close gate again</p>
-          <button
-            onClick={() => closeGate()}
-            className="px-4 py-2 bg-black text-white"
-          >
-            Close Gate
-          </button>
+          <p>Gate closed at {countDown}</p>
         </div>
       </>
     )

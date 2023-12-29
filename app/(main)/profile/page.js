@@ -43,7 +43,7 @@ const ProfilePage = () => {
             title={"Office Address"}
             value={profile?.office?.address ?? ""}
           />
-          <QrCode code={profile?.office?.code} />
+          <QrCode code={profile?.office?.code ?? "0"} />
         </>
       )}
     </div>
