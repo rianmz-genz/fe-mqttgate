@@ -7,6 +7,7 @@ import {
   ManagementErrorHandling,
   ManagementSuccessHandling,
 } from "@/utils/modal";
+import useStore from "@/stores";
 
 const FormCreateOffice = ({ closePopup }) => {
   const field = {
@@ -14,6 +15,8 @@ const FormCreateOffice = ({ closePopup }) => {
     code: "",
     address: "",
   };
+  const get = useStore((state) => state.getOffices);
+
   const [reqBody, setReqBody] = useState(field);
   const [isLoading, setisLoading] = useState(false);
   const fields = Object.keys(field);
@@ -21,10 +24,10 @@ const FormCreateOffice = ({ closePopup }) => {
     event.preventDefault();
     try {
       setisLoading(true);
-      console.log(reqBody);
       const { result } = await officeApi.create(reqBody);
       if (result.status) {
         closePopup();
+        get();
         ManagementSuccessHandling(result.message);
       }
     } catch (error) {

@@ -30,6 +30,7 @@ const ScanQr = () => {
             const { result } = await qrApi.scan({ code });
             if (isSuccess(result.status)) {
               setIsOpen(true);
+              html5QrcodeScanner.clear();
             }
           }
         } catch (error) {
@@ -70,7 +71,13 @@ const ScanQr = () => {
             height={1080}
             className="w-8/12"
           />
-          <p>Gate closed at {countDown}</p>
+          <p>Gate opened</p>
+          <button
+            onClick={() => location.reload()}
+            className="px-4 py-2 bg-black text-white"
+          >
+            Scan Again
+          </button>
         </div>
       </>
     )

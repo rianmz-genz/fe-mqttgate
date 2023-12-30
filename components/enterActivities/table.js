@@ -11,7 +11,7 @@ const TableEnterActivites = ({ datas, isLoading }) => {
       </thead>
       <tbody>
         {isLoading && <tr className="my-1">loading...</tr>}{" "}
-        {!isLoading &&
+        {!isLoading && datas.length > 0 ? (
           datas.map((item, i) => (
             <tr key={i}>
               <td className={`${(i + 1) % 2 == 0 && "bg-gray-100"} px-2 py-2`}>
@@ -21,7 +21,10 @@ const TableEnterActivites = ({ datas, isLoading }) => {
                 {new Date(item.entryAt).toLocaleString("id-ID")}
               </td>
             </tr>
-          ))}
+          ))
+        ) : (
+          <tr>No data</tr>
+        )}
       </tbody>
     </table>
   );

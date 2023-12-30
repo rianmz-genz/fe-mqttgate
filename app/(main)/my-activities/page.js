@@ -20,7 +20,7 @@ const MyActivitiesPage = () => {
     try {
       const { result } = await userApi.activity(officeId);
       if (isSuccess(result.status)) {
-        setActivities(result.data.enterActivities);
+        setActivities(result.data.enterActivities ?? []);
       }
     } catch (error) {
       ManagementErrorHandling(error);
