@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 const ScanQr = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isRendered, setIsRendered] = useState(false);
+  const [isCodeVisible, setisCodeVisible] = useState(false);
   useEffect(() => {
     setIsRendered(true);
   }, []);
@@ -26,7 +27,8 @@ const ScanQr = () => {
 
       const onScanSuccess = async (code, decodedResult) => {
         try {
-          if (code) {
+          if (code && !isCodeVisible) {
+            setisCodeVisible(true);
             const { result } = await qrApi.scan({ code });
             if (isSuccess(result.status)) {
               setIsOpen(true);
