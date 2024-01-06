@@ -84,7 +84,7 @@ const NavbarMain = () => {
         Cookies.remove(btoa(process.env.NEXT_PUBLIC_KEY_USER));
         Cookies.remove(btoa(process.env.NEXT_PUBLIC_KEY_TOKEN));
         ManagementSuccessHandling(result.message);
-        router.push("/");
+        router.push("/login");
       }
     } catch (error) {
       ManagementErrorHandling(error);
